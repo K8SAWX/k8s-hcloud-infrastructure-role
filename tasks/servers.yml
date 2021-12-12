@@ -1,4 +1,9 @@
 ---
+- name: Install hetzner sdk for Python
+  pip:
+    name: "hcloud==1.16.0" 
+  become: yes
+
 - name: "Fetch all public ssh keys"
   shell: "cat ~/.ssh/id_rsa.pub"
   register: "ssh_keys"
@@ -6,7 +11,7 @@
     - ssh
   no_log: true
   ignore_errors: true
-  
+
 - name: "Store the local ssh key"
   set_fact:
     host_ssh_key: "{{ ssh_keys.stdout }}"
