@@ -4,6 +4,21 @@
     name: "hcloud==1.16.0" 
   become: yes
 
+- name: Store the cloud init data
+  set_fact:
+    cloud_init: |
+      #cloud-config
+      users:
+        # Create a k8s user, that later is required for ssh connection
+        # You can change the hashed_password using mkpasswd --method=SHA-512 --rounds=4096 command
+        # Note: mkpasswd is provided by whois package
+        # You alse can use a ssh key
+        - name: k8s
+          hashed_passwd: '$6$rounds=4096$5tCF9.BY$Rs/jDOJ06tLrXBkUlgwr2p/Y0oWHFFLMGn7pupcqowO1C5s81umBqjLEwxbht.Gvp5v7UPAuykA6uvb5RVAQl1'
+          lock_passwd: false
+          sudo: ['ALL=(ALL:ALL) ALL']
+          shell: /bin/bash
+
 - name: "Fetch all public ssh keys"
   shell: "cat ~/.ssh/id_rsa.pub"
   register: "ssh_keys"
@@ -52,6 +67,7 @@
     server_type: "{{hcloud_master_instance_type}}"
     image: "{{ hcloud_instance_image }}"
     ssh_keys: "{{ hcloud_ssh_keys }} "
+    user_data: "{{ cloud_init }}"
     state: "present"
   register: "hc_masters"
   with_sequence: "start=1 end={{ hcloud_num_masters_nodes }}"
@@ -62,6 +78,7 @@
     api_token: "{{ hcloud_token }}"
     labels: {'k8s-worker': 'true'}
     name: "k8s-worker{{item}}"
+    user_data: "{{ cloud_init }}"
     server_type: "{{hcloud_workers_instance_type}}"
     image: "{{ hcloud_instance_image }}"
     ssh_keys: "{{ hcloud_ssh_keys }} "
