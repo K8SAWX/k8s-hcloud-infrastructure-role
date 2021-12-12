@@ -1,0 +1,18 @@
+---
+# defaults file for k8s-hcloud-infrastructure
+
+# The names of the ssh keys that already is created into hetzner cloud
+# hcloud_ssh_keys: 
+#   - mySshKey
+ # New ssh keys to create. 
+# hcloud_new_ssh_keys: 
+#   - name: pro
+#     value: ssh-...
+# VM image
+hcloud_instance_image: 'ubuntu-20.04' 
+ # Total num of masters instances
+hcloud_num_masters_nodes: 1
+# Total num of workers instances
+hcloud_num_workers_nodes: 2 
+hcloud_master_instance_type: 'cx11'
+hcloud_workers_instance_type: 'cx11'
