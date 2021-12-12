@@ -1,5 +1,4 @@
 ---
 # tasks file for k8s-hcloud-infrastructure
-
-# - import_tasks: "servers.yml"
+- import_tasks: "servers.yml"
 - import_tasks: "inventory.yml"

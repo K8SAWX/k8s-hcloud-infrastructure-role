@@ -3,16 +3,14 @@
 hcloud_token: null
 # The name of the private network
 hcloud_private_network: null
-hcloud_ssh_keys:
-  - "EugeniLinux"
+hcloud_ssh_keys: []
 
 # The awx host ip or fqdn
-awx_controller_host: "localhost" 
+awx_controller_host: "localhost:8080" 
 # The awx protocol(https or http)
 awx_controller_protocol: "http"
 # The awx user token
-awx_controller_token: null 
 # The awx username
-awx_controller_username: null
+awx_controller_username: "admin"
 # The awx password
-awx_controller_password: null 
+awx_controller_password: 
