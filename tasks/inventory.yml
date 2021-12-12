@@ -21,7 +21,7 @@
     controller_password: "{{awx_controller_password}}"
     state: "present"
    
-- name: "Add the workers masters and workers nodes"
+- name: "Add the workers and workers nodes"
   awx.awx.host:
     name: "{{ item }}"
     description: "Kubernetes"
