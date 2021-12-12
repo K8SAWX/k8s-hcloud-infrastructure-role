@@ -33,7 +33,7 @@
   with_items: "{{ hcloud_workers +  hcloud_masters }}"
   when: "awx_controller_username is defined and awx_controller_password is defined"
 
-- name: "Add the host to the group worker group"
+- name: "Add the host to the worker group"
   awx.awx.group:
     name: "{{awx_group_nodes}}"
     hosts: "{{ hcloud_workers }}"
@@ -44,7 +44,7 @@
     state: "present"
   when: "awx_controller_username is defined and awx_controller_password is defined"
 
-- name: "Add the host to the group master group"
+- name: "Add the host to the master group"
   awx.awx.group:
     name: "{{awx_group_master}}"
     hosts: "{{ hcloud_masters }}"
