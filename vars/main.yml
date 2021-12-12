@@ -13,4 +13,10 @@ awx_controller_protocol: "http"
 # The awx username
 awx_controller_username: "admin"
 # The awx password
-awx_controller_password: 
+awx_controller_password:
+
+# Create a user, that later is required for ssh connection
+hcloud_cloud_init_user: 
+# You can change the hashed_password using mkpasswd --method=SHA-512 --rounds=4096 command
+# Note: mkpasswd is provided by whois package
+hcloud_cloud_init_hashed_passwd:

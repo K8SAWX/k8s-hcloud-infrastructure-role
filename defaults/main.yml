@@ -8,6 +8,7 @@
 # hcloud_new_ssh_keys: 
 #   - name: pro
 #     value: ssh-...
+
 # VM image
 hcloud_instance_image: 'ubuntu-20.04' 
  # Total num of masters instances
