@@ -28,7 +28,7 @@
       controller_username: "{{awx_controller_username}}"    
       controller_password: "{{awx_controller_password}}"
       state: "present"
-    with_items: "{{ hcloud_workers +  hcloud_masters }}"
+    with_items: "{{ hcloud_workers | union(hcloud_masters) }}"
 
   - name: "Add the host to the worker group"
     awx.awx.group:
