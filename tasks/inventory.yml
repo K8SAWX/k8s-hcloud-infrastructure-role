@@ -18,7 +18,11 @@
       controller_username: "{{awx_controller_username}}"    
       controller_password: "{{awx_controller_password}}"
       state: "present"
-    
+  
+  - name: Merge the workers and master IP's
+    set_fact:
+      all_hosts: "{{ hcloud_workers + hcloud_masters }}"
+
   - name: "Add the workers and masters nodes"
     awx.awx.host:
       name: "{{ item }}"
@@ -28,7 +32,7 @@
       controller_username: "{{awx_controller_username}}"    
       controller_password: "{{awx_controller_password}}"
       state: "present"
-    with_items: "{{ hcloud_workers | union(hcloud_masters) }}"
+    with_items: "{{ all_hosts }}"
 
   - name: "Add the host to the worker group"
     awx.awx.group:
