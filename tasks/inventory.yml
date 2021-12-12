@@ -1,24 +1,17 @@
-- name: Check if the awx vars is defiend
+---
+- name: "Check if the awx vars is defiend"
   ansible.builtin.fail: msg="Check if the awx_controller_protocol and awx_controller_host vars are set"
-  failed_when: awx_controller_host is undefined or awx_controller_protocol is undefined
+  failed_when: "awx_controller_host is undefined or awx_controller_protocol is undefined"
 
-- name: f
-  set_fact:
-    hcloud_workers:
-      - "65.108.153.199"
-      - "65.108.153.216"
-    hcloud_masters:
-      - "65.108.153.201"
-
-- name: Add the organization
+- name: "Add the organization"
   awx.awx.organization:
     name: "{{ awx_organization }}"
     controller_host: "{{awx_controller_protocol}}://{{awx_controller_host}}"
     controller_username: "{{awx_controller_username}}"    
     controller_password: "{{awx_controller_password}}"
-    state: present
+    state: "present"
 
-- name: Add/check the inventory
+- name: "Add/check the inventory"
   awx.awx.inventory:
     name: "{{ awx_inventory_name }}"
     description: "k8s cluster servers"
@@ -26,14 +19,9 @@
     controller_host: "{{awx_controller_protocol}}://{{awx_controller_host}}"
     controller_username: "{{awx_controller_username}}"    
     controller_password: "{{awx_controller_password}}"
-    state: present
-    register: add
-
-- name: d
-  debug:
-    msg: "{{add}}"
-    
-- name: Add the workers masters and workers nodes
+    state: "present"
+   
+- name: "Add the workers masters and workers nodes"
   awx.awx.host:
     name: "{{ item }}"
     description: "Kubernetes"
@@ -41,11 +29,11 @@
     controller_host: "{{awx_controller_protocol}}://{{awx_controller_host}}"
     controller_username: "{{awx_controller_username}}"    
     controller_password: "{{awx_controller_password}}"
-    state: present
+    state: "present"
   with_items: "{{ hcloud_workers +  hcloud_masters }}"
   when: "awx_controller_username is defined and awx_controller_password is defined"
 
-- name: Add the host to the group worker group
+- name: "Add the host to the group worker group"
   awx.awx.group:
     name: "{{awx_group_nodes}}"
     hosts: "{{ hcloud_workers }}"
@@ -53,10 +41,10 @@
     controller_host: "{{awx_controller_protocol}}://{{awx_controller_host}}"
     controller_username: "{{awx_controller_username}}"    
     controller_password: "{{awx_controller_password}}"
-    state: present
+    state: "present"
   when: "awx_controller_username is defined and awx_controller_password is defined"
 
-- name: Add the host to the group master group
+- name: "Add the host to the group master group"
   awx.awx.group:
     name: "{{awx_group_master}}"
     hosts: "{{ hcloud_masters }}"
@@ -64,5 +52,5 @@
     controller_host: "{{awx_controller_protocol}}://{{awx_controller_host}}"
     controller_username: "{{awx_controller_username}}"    
     controller_password: "{{awx_controller_password}}"
-    state: present
+    state: "present"
   when: "awx_controller_username is defined and awx_controller_password is defined"

@@ -1,19 +1,20 @@
 ---
-- name: fetch all public ssh keys
-  shell: cat ~/.ssh/id_rsa.pub
-  register: ssh_keys
+- name: "Fetch all public ssh keys"
+  shell: "cat ~/.ssh/id_rsa.pub"
+  register: "ssh_keys"
   tags:
     - ssh
+  no_log: true
 
-- name: Store the local ssh key
+- name: "Store the local ssh key"
   set_fact:
     host_ssh_key: "{{ ssh_keys.stdout }}"
   tags:
-    - ssh
+    - "ssh"
   ignore_errors: true
   no_log: true
 
-- name: Store the local ssh key in hetzner cloud
+- name: "Store the local ssh key in hetzner cloud"
   hcloud_ssh_key:
     api_token: "{{ hcloud_token }}"
     name: "{{ansible_hostname}}" 
@@ -22,7 +23,7 @@
   no_log: true
   ignore_errors: true
 
-- name: Check if there some new ssh key to create
+- name: "Check if there some new ssh key to create"
   hcloud_ssh_key:
     api_token: "{{ hcloud_token }}"
     name: "{{item.name}}" 
@@ -31,12 +32,12 @@
   when: "hcloud_new_ssh_keys is defined"
   no_log: true
 
-- name: Set internal facts
+- name: "Set internal facts"
   set_fact:
     hcloud_masters: []
     hcloud_workers: []
 
-- name: Create the masters servers
+- name: "Create the masters servers"
   hcloud_server:
     api_token: "{{ hcloud_token }}"
     labels: {'k8s-master': 'true'}
@@ -44,10 +45,10 @@
     server_type: "{{hcloud_master_instance_type}}"
     image: "{{ hcloud_instance_image }}"
     ssh_keys: "{{ hcloud_ssh_keys }} "
-    state: present
-  register: hc_masters
-  with_sequence: start=1 end={{ hcloud_num_masters_nodes }}
-  when: hcloud_num_masters_nodes > 0
+    state: "present"
+  register: "hc_masters"
+  with_sequence: "start=1 end={{ hcloud_num_masters_nodes }}"
+  when: "hcloud_num_masters_nodes > 0"
 
 - name: Create the nodes servers
   hcloud_server:
@@ -57,12 +58,12 @@
     server_type: "{{hcloud_workers_instance_type}}"
     image: "{{ hcloud_instance_image }}"
     ssh_keys: "{{ hcloud_ssh_keys }} "
-    state: present
-  register: hc_workres
-  with_sequence: start=1 end={{ hcloud_num_workers_nodes }}
-  when: hcloud_num_workers_nodes > 0
+    state: "present"
+  register: "hc_workres"
+  with_sequence: "start=1 end={{ hcloud_num_workers_nodes }}"
+  when: "hcloud_num_workers_nodes > 0"
 
-- name:  Store the master IPs
+- name:  "Store the master and workers IPs"
   set_fact:
     hcloud_workers: "{{ hc_workres.results | map(attribute='hcloud_server.ipv4_address') }}"
     hcloud_masters: "{{ hc_masters.results | map(attribute='hcloud_server.ipv4_address') }}"
