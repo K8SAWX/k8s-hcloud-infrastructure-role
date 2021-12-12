@@ -16,3 +16,11 @@ hcloud_num_masters_nodes: 1
 hcloud_num_workers_nodes: 2 
 hcloud_master_instance_type: 'cx11'
 hcloud_workers_instance_type: 'cx11'
+
+#AWX
+awx_inventory_name: 'default'
+# The name of the group that contains all the masters nodes
+awx_group_master: 'k8s-masters'
+# The name of the group that contains all the workers nodes
+awx_group_nodes: 'k8s-workers'
+awx_organization: 'k8s'

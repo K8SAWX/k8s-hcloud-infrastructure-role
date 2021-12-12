@@ -1,38 +1,60 @@
-Role Name
-=========
 
-A brief description of the role goes here.
+# k8s-hcloud-infrastructure-role
 
-Requirements
-------------
+Role to create the necessary infrastructure in hetzner cloud for a cluster in kubernetes
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
---------------
+## Requirements
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+- awx.awx
 
-Dependencies
-------------
+- hetzner.hcloud
+## Role Variables
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
-Example Playbook
-----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+| name | type  |   default	|  required 	|
+|---	|---	|---	|---	|
+|  hcloud_instance_image 	|   str  	|  ubuntu-20.04 	|   No	|
+|  hcloud_num_masters_nodes 	|  number 	|  1 	|   No	|
+|  hcloud_num_workers_nodes 	| number  	|  2 	|  No 	|
+|  hcloud_master_instance_type 	|  str 	|  cx11 	|  No 	|
+| hcloud_workers_instance_type |  str 	|   cx11	|  No 	|
+| awx_inventory_name | str| default | Non
+| hcloud_token  |  str 	|   None	|   **Yes**	|
+| hcloud_private_network | str| None| **Yes**|
+| hcloud_ssh_keys| list| []| No
+|awx_controller_host| str| None| No
+|awx_controller_protocol| str| None|No
+|awx_controller_token| str| None| No
+|awx_controller_username|str|None|No
+|awx_controller_password| str | None|No
+|awx_group_master| str|k8s-masters| No
+|awx_group_nodes| str|k8s-workers|No
+|awx_organization| str|k8s|No
+## Example Playbook
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    -  name:  Run role
+	   hosts:  127.0.0.1
+       roles:
+         -  "k8s-hcloud-infrastructure"
 
-License
--------
+  
+  
+
+## License
+
+
+  
 
 BSD
 
-Author Information
+  
+
+Eugeni Bejan
+
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+  
+
+

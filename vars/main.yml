@@ -6,8 +6,6 @@ hcloud_private_network: null
 hcloud_ssh_keys:
   - "EugeniLinux"
 
-# The awx inventory name
-awx_inventory_name: null
 # The awx host ip or fqdn
 awx_controller_host: "localhost" 
 # The awx protocol(https or http)
@@ -18,8 +16,3 @@ awx_controller_token: null
 awx_controller_username: null
 # The awx password
 awx_controller_password: null 
-# The name of the group that contains all the masters nodes
-awx_group_master: 'k8s-masters'
-# The name of the group that contains all the workers nodes
-awx_group_nodes: 'k8s-workers'
-awx_organization: 'k8s'
