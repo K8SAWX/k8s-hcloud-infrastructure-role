@@ -72,6 +72,6 @@
 
 - name:  "Store the master and workers IPs"
   set_fact:
-    hcloud_workers: "{{ hc_workres.results | map(attribute='hcloud_server.ipv4_address') }}"
-    hcloud_masters: "{{ hc_masters.results | map(attribute='hcloud_server.ipv4_address') }}"
+    hcloud_workers: "{{ hc_workres.results | map(attribute='hcloud_server.ipv4_address') | list}}"
+    hcloud_masters: "{{ hc_masters.results | map(attribute='hcloud_server.ipv4_address') | list }}"
         
