@@ -16,7 +16,7 @@
         - name: '{{ hcloud_cloud_init_user }}'
           hashed_passwd: '{{ hcloud_cloud_init_hashed_passwd }}'
           lock_passwd: false
-          sudo: ['ALL=(ALL:ALL) ALL']
+          sudo: ['ALL=(ALL:ALL) NOPASSWD:ALL']
           shell: /bin/bash
 
 - name: "Fetch all public ssh keys"
